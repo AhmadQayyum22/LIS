@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <style>
+    body {
+    background-image: url('/images/lab1.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+  <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+
+  <title>[[${pageTitle}]]</title>
+</head>
+<body>
+<div>
+  <h2 align="center">Lab Information System</h2>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/LIS/allPatient">Home</a>
+
+
+    </div>
+
+  </nav>
+
+  <div><h2 class="text-center" >[[${pageTitle}]]</h2></div>
+  <input id="orderId" type="hidden" th:value="${orderid}">
+
+  <table class="table table-bordered" id="myTable">
+    <thead class="thead-dark" >
+    <tr>
+      <th>ID</th>
+      <th>Test Code</th>
+      <th>Test Description</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr id="tro" th:each="OrderList : ${orderList}">
+      <td th:text="${OrderList.orderListId}"></td>
+      <td th:text="${OrderList.testCode}"></td>
+      <td th:text="${OrderList.desCription}"></td>
+
+      <td>
+        <input id="add" type="checkbox" th:value="${OrderList.desCription}"  >
+      </td>
+
+
+    </tr>
+
+
+    </tbody>
+
+  </table>
+
+
+  <form><div class="text-center">
+    <button type="submit" class="btn btn-secondary m-2" onclick="GetSelected()">Save</button>
+    <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Cancel</button>
+
+  </div>
+  </form>
+
+
+</div>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+ var id = document.getElementById("orderId").value;
+
+ function GetSelected() {
+
+
+        //Create an Array.
+        var selected = new Array();
+
+        //Reference the Table.
+        var myTable = document.getElementById("myTable");
+
+        //Reference all the CheckBoxes in Table.
+        var chks = myTable.getElementsByTagName("INPUT");
+
+        // Loop and push the checked CheckBox value in Array.
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked) {
+                selected.push(chks[i].value);
+            }
+        }
+
+
+        //Display the selected CheckBox values.
+       if (selected.length > 0) {
+     for(let i = 0; i < selected.length; i++){
+        var desc = selected[i];
+        console.log(desc);
+        var info = {orderDesc:desc,orderId:id};
+        var requestJSON = JSON.stringify(info);
+        $.ajax({
+                  type : "POST",
+                  url : "http://localhost:8080/LIS/addorupdateOrderItem",
+                  headers : {
+                     "Content-Type" : "application/json"
+                  },
+                  data : requestJSON,
+                  success : function(result) {
+                  location.reload();
+
+                  },
+                  error : function(result) {
+                  }
+               });
+        }
+
+      }
+    };
+
+    function cancelForm(){
+    window.location = "[[@{/LIS/allPatient}]]"
+
+    }
+
+</script>
+</body>
+</html>

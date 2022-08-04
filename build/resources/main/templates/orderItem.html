@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+    <style>
+    body {
+    background-image: url('/images/lab1.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    }
+
+    h1.head{
+    font-family: "Audiowide", sans-serif;
+    }
+
+    h2.order{
+    font-family: "Audiowide", sans-serif;
+    }
+  </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+
+    <title>Orders</title>
+</head>
+<body>
+<div>
+    <h1 class="head" align="center">Lab Information System</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/LIS/allPatient">Home</a>
+
+
+        </div>
+
+    </nav>
+
+    <div><h2 class="order" align="center" >Orders</h2></div>
+
+    <table class="table table-bordered" id="myTable">
+        <thead class="thead-dark" >
+        <tr>
+            <th>Order Id</th>
+            <th>Order Description</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="tro" th:each="orders : ${orderItems}">
+            <td th:text="${orders.orderId}"></td>
+            <td th:text="${orders.orderDesc}"></td>
+            <td>
+                <button id="item" style="background-color: red" th:value="${orders.orderItemId}" onclick="deleteItem()">Delete</button></a>
+            </td>
+        </tr>
+
+
+        </tbody>
+
+    </table>
+
+
+</div>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function deleteItem() {
+    var id = document.getElementById("item").value;
+    $.ajax({
+    type : "DELETE",
+    url : "http://localhost:8080/LIS/deleteOrderItem/item" + id,
+    success: function (result) {
+           location.reload();
+    },
+    error: function (e) {
+        console.log(e);
+    }
+});
+    }
+</script>
+</body>
+</html>

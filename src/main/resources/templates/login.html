@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+    <style>
+    body {
+    background-image: url('/images/lab1.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    }
+.login-block input,
+.login-block textarea {
+  width: 100%;
+  color: var(--heading-color);
+  background: white;
+  font-size: 16px;
+  padding: 14px;
+  border: 2px solid var(--border-color-light);
+  outline: none;
+  margin-bottom: 20px;
+  border-radius: var(--border-radius);
+}
+
+.log-left.text-center i {
+  color: var(--secondary-color);
+  font-size: 26px;
+}
+
+.login-block textarea {
+  height: 180px;
+  margin: 0 0 20px 0;
+}
+
+.login-block input:focus,
+.login-block textarea:focus {
+  border: 2px solid white;
+  background: var(--bg-color);
+}
+.btn.btn-style.btn-style-3.text-left{
+  background-color:#008CBA;
+    color: #fff;
+    border:none;
+    border-radius:10px;
+}
+
+.login-left {
+  box-shadow: var(--box-shadow);
+  padding: 40px;
+}
+
+.login-center {
+    float: none;
+    margin: auto;
+}
+
+.log-details p a:hover {
+  color: var(--secondary-color);
+}
+
+.log-details h6 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 18px;
+  margin-bottom: 8px;
+}
+
+.new-user {
+    color: secondary-color;
+    margin-left: 40%;
+}
+
+h1.head{
+    font-family: "Audiowide", sans-serif;
+    }
+
+    h3.login{
+    font-family: "Audiowide", sans-serif;
+    }
+  </style>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+    <title>Lab Information System</title>
+</head>
+<body>
+<div class="container text-center">
+<div><h1 class="head">Welcome to Lab Information System</h1></div>
+    <section class="w3l-contact py-5" id="contact">
+        <div class="container py-md-5 py-4">
+            <div class="title-main text-center mx-auto mb-md-5 mb-4" style="max-width:500px;">
+                <h3 class="login">LogIn</h3>
+            </div>
+            <div class="row login-block">
+                <div class="col-md-6 login-center">
+                    <form th:action="@{/LIS/login}" th:method="post" class="signin-form">
+                        <div class="col-md-8 login-center input-grids">
+                            <li class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(errorMessge)}"
+                                th:text="${errorMessge}" />
+                            <input type="text" name="username" id="username" placeholder="Username"
+                                   class="login-input" />
+                            <input type="password" name="password" id="password" placeholder="Password"
+                                   class="login-input" />
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        </div>
+                        <div class="col-md-8 login-center text-start">
+                            <button class="btn btn-style btn-style-3 text-left">Log In</button>
+                            <a th:href="@{/LIS/user/register}" class="new-user text-right" ><label>New User ?</label></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

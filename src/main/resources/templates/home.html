@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+  <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide|Sofia|Trirong">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+
+    body {
+    background-image: url('/images/lab1.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    }
+
+    h2.head{
+    font-family: "Audiowide", sans-serif;
+    }
+
+    a.nav-link{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    th.r{
+    font-size: 15px;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    td.r{
+    font-size: 15px;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    a.e{
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    a.e1{
+    color : red;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    button.i{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    input.i{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    }
+
+
+
+  </style>
+
+  <title>Lab Information System</title>
+</head>
+<body>
+<div>
+
+  <h2 class = "head" align="center" >Lab Information System</h2>
+<ul class="nav justify-content-end">
+        <li class="nav-item">
+        <form th:action="@{/LIS/allPatient}">
+          <input type="text" class="i" name="keyword" id="keyword" th:value="${keyword}" placeholder="Search by Last Name"  required>
+          <button type="submit" class="i"><i class="fa fa-search"></i></button>
+
+        </form>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" onclick="clearSearch()"><i class="fa fa-refresh fa-spin" style="font-size:24px"></i></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"  sec:authorize="isAuthenticated()" href="/LIS/patient/new">New Patient</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"   sec:authorize="hasRole('Admin')" href="/LIS/allUsers" >Users Info</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"   sec:authorize="hasRole('Admin')" href="/LIS/allphysician" >Physicians Info</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"   sec:authorize="hasRole('Admin')" href="/LIS/fullorderlist" >Order List</a>
+        </li>
+        <li>
+            <a class="nav-link"  sec:authorize="isAuthenticated()" href="/LIS/logout" >Log Out</a>
+        </li>
+
+      </ul>
+
+
+  <div th:if="${message}" class="alert alert-success text-center">
+    [[${message}]]
+  </div>
+  <tr>
+    <table class="table table-bordered" >
+      <thead class="thead-dark" >
+      <tr>
+        <th class = "r">Patient ID</th>
+        <th class = "r">Last Name</th>
+        <th class = "r">First Name</th>
+        <th class = "r">DOB</th>
+        <th class = "r">SSN</th>
+        <th class = "r">Address</th>
+        <th class = "r">City</th>
+        <th class = "r">State</th>
+        <th class = "r">ZipCode</th>
+        <th class = "r">Order Date</th>
+<!--          <th class = "r">Physician</th>-->
+        <th class = "r">Edit</th>
+        <th class = "r">Order List</th>
+        <th class = "r">Orders</th>
+<!--        <th class = "r">Delete</th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr  th:each="pat : ${listpatients}">
+        <td class = "r" th:text="${pat.patId}"></td>
+        <td class = "r" th:text="${pat.lName}"></td>
+        <td class = "r" th:text="${pat.fName}"></td>
+        <td class = "r" th:text="${pat.DOB}"></td>
+        <td class = "r" th:text="${pat.SSN}"></td>
+        <td class = "r" th:text="${pat.address}"></td>
+        <td class = "r" th:text="${pat.City}"></td>
+        <td class = "r" th:text="${pat.State}"></td>
+        <td class = "r" th:text="${pat.zipcode}"></td>
+        <td class = "r" th:text="${pat.orderdate}"></td>
+<!--      <tr  th:each="phyName : ${phyName}">-->
+<!--        <td class = "r" th:text="${phyName.phyId}"></td>-->
+<!--      </tr>-->
+        <td>
+          <a class="e" th:href="@{'/LIS/patient/edit/' + ${pat.patId}}">Edit</a>
+        </td>
+        <td>
+          <a class="e" th:href="@{'/LIS/orders/patId' + ${pat.patId}}">Add Order</a>
+        </td>
+        <td>
+          <a class="e" th:href="@{'/LIS/orderdItems/patId' + ${pat.patId}}">Orders</a>
+        </td>
+<!--        <td>-->
+<!--          <a class="e1" th:href="@{'/LIS/patient/delete/' + ${pat.patId}}" >Delete</a>-->
+<!--        </td>-->
+
+      </tr>
+
+
+      </tbody>
+    </table>
+
+  </tr>
+
+  </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/LIS/allPatient}]]";
+    }
+    </script>
+</body>
+</html>

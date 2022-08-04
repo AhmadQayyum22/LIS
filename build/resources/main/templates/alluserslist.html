@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+  <style>
+    body {
+    background-image: url('/images/lab1.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    }
+
+    h2.head{
+    font-family: "Audiowide", sans-serif;
+    }
+
+     a.nav-link{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    th.r{
+    font-size: 15px;
+    font-family: "Audiowide", sans-serif;
+    }
+
+
+    td.r{
+    font-size: 15px;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    a.e{
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    }
+
+    a.e1{
+    color : red;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Audiowide", sans-serif;
+    }
+  </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+  <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+
+  <title>Lab Information System</title>
+</head>
+<body>
+<div>
+  <h2 class="head" align="center">Lab Information System</h2>
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a class="nav-link" href="/LIS/allPatient">Home</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/LIS/pending-users-request">Pending Requests</a>
+    </li>
+
+  </ul>
+  <h2 class="head" align="center">All Users List</h2>
+  <tr>
+    <table class="table table-bordered" >
+      <thead class="thead-dark" >
+      <tr>
+        <th class = "r">User ID</th>
+        <th class = "r">First Name</th>
+        <th class = "r">Last Name</th>
+        <th class = "r">Email</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr  th:each="user : ${user}">
+        <td class = "r" th:text="${user.userId}"></td>
+        <td class = "r" th:text="${user.firstName}"></td>
+        <td class = "r" th:text="${user.lastName}"></td>
+        <td class = "r" th:text="${user.email}"></td>
+        <td>
+          <a class="e" th:href="@{'/LIS/role-admin/' + ${user.userId}}">Make Admin</a>
+        </td>
+        <td>
+          <a class="e1" th:href="@{'/LIS/user/delete/' + ${user.userId}}" >Delete</a>
+        </td>
+
+
+      </tr>
+
+
+      </tbody>
+    </table>
+
+
+  </tr>
+
+  </tbody>
+  </table>
+</div>
+</body>
+</html>
