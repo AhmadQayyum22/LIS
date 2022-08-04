@@ -68,22 +68,9 @@ public class UsersService {
     }
 
     public void deleteUser(int userId) throws Exception {
-        Users deletedUser = null;
-        try {
-            deletedUser = usersRepository.findById(userId).orElse(null);
-            if(deletedUser == null) {
-                throw new Exception("User not Available");
-            }
-            else {
-                usersRepository.deleteById(userId);
-            }
-        }
-        catch (Exception ex) {
-            throw ex;
-        }
-
-
-
+        Users user = usersRepository.findById(userId)
+                .orElseThrow(() -> new Exception("User Not Available"));
+        usersRepository.deleteById(user.getUserId());
     }
 
 

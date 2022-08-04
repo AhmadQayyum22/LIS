@@ -63,14 +63,12 @@ public class UserServiceTest {
 
     @Test
     public void testdeleteUser() throws Exception {
+        //given
         Users user = new Users(1, "Ahmad", "Qayyum", "ahm", "ahmadgrewal22@gmail.com", "123456", true, roleInfo);
-        int id = user.getUserId();
-        try {
-            userServ.deleteUser(id);
-            verify(userRepo, atLeastOnce()).delete(user);
-        }catch (Exception e){
-            System.out.println("No user found");
-        }
-
+        //when
+        doReturn(Optional.of(user)).when(userRepo).findById(user.getUserId());
+        userServ.deleteUser(user.getUserId());
+        //then
+        verify(userRepo, atLeastOnce()).deleteById(user.getUserId());
     }
 }
