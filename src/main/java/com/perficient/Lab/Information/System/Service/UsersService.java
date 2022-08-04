@@ -67,10 +67,11 @@ public class UsersService {
         return usersRepository.save(user);
     }
 
-    public void deleteUser(int userId) throws Exception {
+    public Users deleteUser(int userId) throws Exception {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(() -> new Exception("User Not Available"));
         usersRepository.deleteById(user.getUserId());
+        return user;
     }
 
 

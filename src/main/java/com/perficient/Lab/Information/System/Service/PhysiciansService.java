@@ -32,21 +32,9 @@ public class PhysiciansService {
 
     public Physicians deletePhysician(int physicianID) throws Exception {
 
-        Physicians deletedPhysician = null;
-        try {
-            deletedPhysician = phyRepo.findById(physicianID).orElse(null);
-            if(deletedPhysician == null) {
-                throw new Exception("User not Available");
-            }
-            else {
-                phyRepo.deleteById(physicianID);
-            }
-        }
-        catch (Exception ex) {
-            throw ex;
-        }
-
-        return deletedPhysician;
+            Physicians deletedPhysician = phyRepo.findById(physicianID).orElseThrow(() ->new Exception("Physician Not Found"));
+            phyRepo.deleteById(physicianID);
+            return deletedPhysician;
 
     }
 
